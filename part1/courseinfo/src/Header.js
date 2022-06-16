@@ -1,6 +1,4 @@
 const Header = (props) => {
-
-    console.log('header')
     return (
         <div>
             <header>
