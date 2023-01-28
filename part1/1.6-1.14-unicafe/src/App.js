@@ -14,18 +14,41 @@ const Statistics = (prop) => {
   if (good !== 0 || neutral !== 0 || bad !== 0) {
     return (
       <div>
-        <h1>Statistics</h1>
-        <StatisticsLine text={'good'} value={good}/>
-        <StatisticsLine text={'neutral'} value={neutral}/>
-        <StatisticsLine text={'bad'} value={bad}/>
-        <StatisticsLine text={'average'} value={isNaN((good - bad) / all) ? 0 : (good - bad) / all}/>
-        <StatisticsLine text={'positive'} value={isNaN((good / all) * 100)? 0 + '%' : (good / all) * 100 + '%'} /> 
+        <table>
+          <tbody>
+            <tr>
+              <StatisticsLine text={"good"} value={good} />
+            </tr>
+            <tr>
+              <StatisticsLine text={"neutral"} value={neutral} />
+            </tr>
+            <tr>
+              <StatisticsLine text={"bad"} value={bad} />
+            </tr>
+            <tr>
+              <StatisticsLine text={"all"} value={all} />
+            </tr>
+            <tr>
+              <StatisticsLine
+                text={"average"}
+                value={isNaN((good - bad) / all) ? 0 : (good - bad) / all}
+              />
+            </tr>
+            <tr>
+              <StatisticsLine
+                text={"positive"}
+                value={
+                  isNaN((good / all) * 100) ? 0 + "%" : (good / all) * 100 + "%"
+                }
+              />
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   } else {
     return (
       <div>
-        <h1>Statistics</h1>
         <div>No Feedback given</div>
       </div>
     );
@@ -36,10 +59,13 @@ const StatisticsLine = (props) => {
   const text = props.text;
   const value = props.value;
 
-  return(
-    <div>{text}: {value}</div>
+  return (
+    <>
+      <td>{text}</td>
+      <td>{value}</td>
+    </>
   );
-}
+};
 
 const App = () => {
   // save clicks of each button to its own state
@@ -69,6 +95,7 @@ const App = () => {
       <Button handelClick={handelGood} text="good" />
       <Button handelClick={handelNeutral} text="neutral" />
       <Button handelClick={handelBad} text="bad" />
+      <h1>Statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad} all={all} />
     </div>
   );
