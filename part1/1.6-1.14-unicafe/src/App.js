@@ -11,22 +11,26 @@ const Statistics = (prop) => {
   const bad = prop.bad;
   const all = prop.all;
 
-  return (
-    <div>
-      <h1>Statistics</h1>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {all}</div>
+  if (good !== 0 || neutral !== 0 || bad !== 0) {
+    return (
       <div>
-        average
-        {isNaN((good - bad) / all)
-          ? 0
-          : (good - bad) / all}
+        <h1>Statistics</h1>
+        <div>good {good}</div>
+        <div>neutral {neutral}</div>
+        <div>bad {bad}</div>
+        <div>all {all}</div>
+        <div>average {isNaN((good - bad) / all) ? 0 : (good - bad) / all}</div>
+        <div>positive {~~((good / all) * 100)}%</div>
       </div>
-      <div>positive {~~((good / all) * 100)}%</div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <div>No Feedback given</div>
+      </div>
+    );
+  }
 };
 
 const App = () => {
