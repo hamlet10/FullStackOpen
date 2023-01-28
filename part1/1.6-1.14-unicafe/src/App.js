@@ -15,12 +15,11 @@ const Statistics = (prop) => {
     return (
       <div>
         <h1>Statistics</h1>
-        <div>good {good}</div>
-        <div>neutral {neutral}</div>
-        <div>bad {bad}</div>
-        <div>all {all}</div>
-        <div>average {isNaN((good - bad) / all) ? 0 : (good - bad) / all}</div>
-        <div>positive {~~((good / all) * 100)}%</div>
+        <StatisticsLine text={'good'} value={good}/>
+        <StatisticsLine text={'neutral'} value={neutral}/>
+        <StatisticsLine text={'bad'} value={bad}/>
+        <StatisticsLine text={'average'} value={isNaN((good - bad) / all) ? 0 : (good - bad) / all}/>
+        <StatisticsLine text={'positive'} value={isNaN((good / all) * 100)? 0 + '%' : (good / all) * 100 + '%'} /> 
       </div>
     );
   } else {
@@ -32,6 +31,15 @@ const Statistics = (prop) => {
     );
   }
 };
+
+const StatisticsLine = (props) => {
+  const text = props.text;
+  const value = props.value;
+
+  return(
+    <div>{text}: {value}</div>
+  );
+}
 
 const App = () => {
   // save clicks of each button to its own state
