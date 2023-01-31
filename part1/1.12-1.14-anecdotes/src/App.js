@@ -24,11 +24,18 @@ const App = () => {
 
   const min = 0;
   const [selected, setSelected] = useState(min);
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0));
   
 
   const nextAnecdote = () => {
     setSelected(getRandomInt(min, anecdotes.length));
     console.log(getRandomInt(min, anecdotes.length));
+  };
+
+  const vote = () => {
+    const copy = [...points];
+    copy[selected] += 1;
+    setPoints(copy);
   };
 
 
@@ -39,7 +46,12 @@ const App = () => {
       <div>
         <Button handleClick={nextAnecdote} text={"next anecdote"} />
       </div>
-
+      <div>
+        has {points[selected]} votes
+        <div>
+          <Button handleClick={vote} text={"vote"} />
+        </div>
+      </div>
     </div>
   );
 };
