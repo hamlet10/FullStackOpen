@@ -38,10 +38,14 @@ const App = () => {
     setPoints(copy);
   };
 
+  const ranked = points.reduce((a,b) => Math.max(a,b), -Infinity)
+
+
 
 
   return (
     <div>
+      <h1>Anecdotes of the day</h1>
       {anecdotes[selected]}
       <div>
         <Button handleClick={nextAnecdote} text={"next anecdote"} />
@@ -51,6 +55,11 @@ const App = () => {
         <div>
           <Button handleClick={vote} text={"vote"} />
         </div>
+        <div>
+          <h1>Anecdotes with most votes</h1>
+          {anecdotes[points.indexOf(ranked)]}
+        </div>
+
       </div>
     </div>
   );
