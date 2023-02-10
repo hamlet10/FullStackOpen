@@ -6,11 +6,15 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault();
-    const newCotact = {
-      name: newName,
-    };
 
-    setPersons(persons.concat(newCotact));
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} ya esta en la lista`);
+    } else {
+      const newCotact = {
+        name: newName,
+      };
+      setPersons(persons.concat(newCotact));
+    }
     setNewName("");
   };
 
@@ -30,11 +34,9 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {
-        persons.map((persona, i) => <div key={i}>{persona.name}</div>)
-      }
-
-      {/* <div>degug: {newName}</div> */}
+      {persons.map((persona, i) => (
+        <div key={i}>{persona.name}</div>
+      ))}
     </div>
   );
 };
