@@ -1,56 +1,43 @@
-import { logRoles } from "@testing-library/react";
+import Persons from "./components/Persons"
 import { useState } from "react";
+import Form from "./components/Form";
+import Filter from "./components/Filter";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas", number: "" }]);
-  const [newName, setNewName] = useState({name: "", number:""});
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ]);
 
-  const addContact = (event) => {
-    event.preventDefault();
-    if (persons.some((person) => person.name === newName.name)) {
-      alert(`${newName.name} ya esta en la lista`);
+
+
+
+  const addContact = (NuPerson) => {
+    console.log(NuPerson);
+    if (persons.some((person) => person.name === NuPerson.name)) {
+      alert(`${NuPerson.name} ya esta en la lista`);
     } else {
-      const newCotact = newName
+      const newCotact = NuPerson
       setPersons(persons.concat(newCotact));
     }
     console.log(persons);
-    setNewName({name: "",number: ""});
   };
 
-  const handleContactChange = (event) => {
-    const copyPerson = {
-      ...newName,
-      name: event.target.value
-    };
-    console.log(event.target.value);
-    setNewName(copyPerson);
-  };
 
-  const handleNumbertChange = (event) => {
-    const copyPerson = {
-      ...newName,
-      number: event.target.value
-    };
-    console.log(copyPerson);
-    setNewName(copyPerson);
-  };
+  const handleFilterChange =(param) =>{
+     const withFilter = persons.filter(persons => persons.name.toLocaleLowerCase().includes(param.toLocaleLowerCase()))
+      setPersons(withFilter)
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addContact}>
-        <div>
-          name: <input value={newName.name} onChange={handleContactChange} />
-        </div>
-        <div>number: <input value={newName.number} onChange={handleNumbertChange}/></div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter handleFilter={handleFilterChange}/>
+      <Form  handlePerson={addContact}/>
       <h2>Numbers</h2>
-      {persons.map((persona, i) => (
-        <div key={i}>{persona.name} {persona.number}</div>
-      ))}
+      <Persons persons={persons}/>
     </div>
   );
 };
