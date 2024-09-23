@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import personService from "./services.js/person";
 import Persons from "./components/Persons";
 import Form from "./components/Form";
@@ -19,7 +18,22 @@ const App = () => {
   const addContact = (NuPerson) => {
     console.log(NuPerson);
     if (persons.some((person) => person.name === NuPerson.name)) {
-      alert(`${NuPerson.name} ya esta en la lista`);
+      if (
+        window.confirm(
+          `You are about to rewrite ${NuPerson.name} do you want to continue?`
+        )
+      ) {
+        const personToUpdate = persons.filter((p) => p.name === NuPerson.name);
+        personService
+          .update(personToUpdate[0].id, NuPerson)
+          .then((response) => {
+            setPersons(
+              persons.map((p) =>
+                p.id != personToUpdate.id ? p : response.data
+              )
+            );
+          });
+      }
     } else {
       const newCotact = NuPerson;
       personService.create(NuPerson).then((response) => {
@@ -31,11 +45,11 @@ const App = () => {
   };
 
   const deletePerson = (id) => {
-    const person = persons.filter(p => p.id === id)
+    const person = persons.filter((p) => p.id === id);
     console.log(person);
     if (window.confirm(`Deseas eliminar a ${person[0].name}`)) {
       personService.remove(id).then((response) => {
-        window.alert(`${response.data.name} borrado exitosamente`)
+        window.alert(`${response.data.name} borrado exitosamente`);
       });
     }
   };
